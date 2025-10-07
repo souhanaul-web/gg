@@ -20,7 +20,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
     paymentMode: 'Espece' as 'Espece' | 'Cheque' | 'Carte Bancaire',
     paymentType: 'Au comptant' as 'Au comptant' | 'Crédit',
     creditAmount: '',
-    paymentDate: ''
+    paymentDate: new Date().toISOString().split('T')[0]
   });
 
   const [xmlSearchResult, setXmlSearchResult] = useState<any>(null);
@@ -178,6 +178,13 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
         setTimeout(() => setMessage(''), 5000);
         return;
       }
+
+      // Validation de la date de paiement
+      if (!formData.paymentDate) {
+        setMessage('❌ Veuillez saisir une date de paiement');
+        setTimeout(() => setMessage(''), 5000);
+        return;
+      }
     }
     
     console.log('🔍 Vérification avant sauvegarde (CRÉDIT):');
@@ -231,7 +238,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
             paymentMode: 'Espece',
             paymentType: 'Au comptant',
             creditAmount: '',
-            paymentDate: ''
+            paymentDate: new Date().toISOString().split('T')[0]
           });
           setXmlSearchResult(null);
           setIsRetourTechniqueMode(false);
@@ -258,7 +265,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
             paymentMode: 'Espece',
             paymentType: 'Au comptant',
             creditAmount: '',
-            paymentDate: ''
+            paymentDate: new Date().toISOString().split('T')[0]
           });
           setXmlSearchResult(null);
           setIsRetourTechniqueMode(false);
@@ -290,7 +297,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
             paymentMode: 'Espece',
             paymentType: 'Au comptant',
             creditAmount: '',
-            paymentDate: ''
+            paymentDate: new Date().toISOString().split('T')[0]
           });
           setXmlSearchResult(null);
           setIsRetourTechniqueMode(false);
@@ -317,7 +324,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
             paymentMode: 'Espece',
             paymentType: 'Au comptant',
             creditAmount: '',
-            paymentDate: ''
+            paymentDate: new Date().toISOString().split('T')[0]
           });
           setXmlSearchResult(null);
           setIsRetourTechniqueMode(false);
@@ -400,7 +407,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
         paymentMode: 'Espece',
         paymentType: 'Au comptant',
         creditAmount: '',
-        paymentDate: ''
+        paymentDate: new Date().toISOString().split('T')[0]
       });
       setXmlSearchResult(null);
       setIsRetourTechniqueMode(false);
@@ -622,6 +629,31 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
             </div>
           </div>
 
+          {/* Date de paiement (pour tous les types) */}
+          <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+              <Calendar className="w-5 h-5 mr-2" />
+              Date de paiement
+            </h3>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Date de paiement *
+              </label>
+              <input
+                type="date"
+                name="paymentDate"
+                value={formData.paymentDate}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                required
+              />
+              <p className="text-xs text-blue-600 mt-2">
+                Saisissez la date à laquelle le paiement a été ou sera effectué
+              </p>
+            </div>
+          </div>
+
           {/* Section CRÉDIT (conditionnelle) */}
           {formData.paymentType === 'Crédit' && (
             <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-6">
@@ -653,7 +685,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                     <Calendar className="w-4 h-4 mr-2" />
-                    Date de paiement prévue *
+                    Date de paiement du crédit prévue *
                   </label>
                   {username === 'Hamza' ? (
                     <input
@@ -670,6 +702,9 @@ const ContractForm: React.FC<ContractFormProps> = ({ username }) => {
                       Date minimum: {new Date(Date.now() + 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR')}
                     </div>
                   )}
+                  <p className="text-xs text-orange-600 mt-2">
+                    Cette date correspond au paiement futur du crédit restant
+                  </p>
                 </div>
               </div>
               

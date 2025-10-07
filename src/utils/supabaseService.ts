@@ -130,7 +130,7 @@ export const saveAffaireContract = async (contractData: any): Promise<boolean> =
         mode_paiement: contractData.paymentMode,
         type_paiement: contractData.paymentType,
         montant_credit: montantCreditValue,
-        date_paiement: contractData.paymentType === 'Crédit' ? contractData.paymentDate : null,
+        date_paiement: contractData.paymentDate || new Date().toISOString().split('T')[0],
         cree_par: contractData.createdBy
       }]);
 
@@ -209,7 +209,7 @@ export const saveTermeContract = async (contractData: any): Promise<boolean> => 
       assure: contractData.insuredName || '',
       branche: contractData.branch || '',
       echeance: echeanceISO,
-      date_paiement: new Date().toISOString().split('T')[0],
+      date_paiement: contractData.paymentDate || new Date().toISOString().split('T')[0],
       cree_par: contractData.createdBy || 'Système'
     };
 
