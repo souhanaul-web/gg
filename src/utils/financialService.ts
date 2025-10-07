@@ -6,6 +6,7 @@ export interface Depense {
   type_depense: string;
   montant: number;
   date_depense?: string;
+  date_paiement_depense?: string;
   cree_par: string;
   created_at?: string;
 }
@@ -15,6 +16,7 @@ export interface RecetteExceptionnelle {
   type_recette: string;
   montant: number;
   date_recette?: string;
+  date_paiement_recette?: string;
   cree_par: string;
   created_at?: string;
 }
@@ -53,6 +55,7 @@ export const saveDepense = async (depense: Depense): Promise<boolean> => {
         type_depense: depense.type_depense,
         montant: depense.montant,
         date_depense: depense.date_depense || new Date().toISOString().split('T')[0],
+        date_paiement_depense: depense.date_paiement_depense || new Date().toISOString().split('T')[0],
         cree_par: depense.cree_par
       }])
       .select();
@@ -121,6 +124,7 @@ export const saveRecetteExceptionnelle = async (recette: RecetteExceptionnelle):
         type_recette: recette.type_recette,
         montant: recette.montant,
         date_recette: recette.date_recette || new Date().toISOString().split('T')[0],
+        date_paiement_recette: recette.date_paiement_recette || new Date().toISOString().split('T')[0],
         cree_par: recette.cree_par
       }])
       .select();
@@ -231,7 +235,8 @@ export const saveRistourne = async (ristourne: Ristourne): Promise<boolean> => {
         client: ristourne.client,
         montant_ristourne: ristourne.montant_ristourne,
         date_ristourne: ristourne.date_ristourne || new Date().toISOString().split('T')[0],
-        created_at: new Date().toISOString().split('T')[0], // Date courante
+        date_paiement_ristourne: ristourne.date_paiement_ristourne || new Date().toISOString().split('T')[0],
+        created_at: new Date().toISOString().split('T')[0],
         cree_par: ristourne.cree_par
       }])
       .select();
@@ -330,7 +335,8 @@ export const saveSinistre = async (sinistre: Sinistre): Promise<boolean> => {
         montant: sinistre.montant,
         client: sinistre.client,
         date_sinistre: sinistre.date_sinistre || new Date().toISOString().split('T')[0],
-        created_at: new Date().toISOString().split('T')[0], // Date courante
+        date_paiement_sinistre: sinistre.date_paiement_sinistre || new Date().toISOString().split('T')[0],
+        created_at: new Date().toISOString().split('T')[0],
         cree_par: sinistre.cree_par
       }])
       .select();
